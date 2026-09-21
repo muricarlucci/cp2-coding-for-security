@@ -1,7 +1,7 @@
 # Check Point 02 — Coding for Security (2º Semestre)
 
 **Aluno:** Murilo Carlucci  
-**Curso:** Cybersecurity — FIAP  
+**Curso:** Cybersecurity, FIAP  
 **Disciplina:** Coding for Security  
 **Conteúdo Avaliado:** Aulas 1 a 8 (SQL vs NoSQL, PyMongo, MySQL, Machine Learning, APIs Flask e OWASP Top 10:2025)
 
