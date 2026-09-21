@@ -4,9 +4,12 @@ def recomendar(perfil):
     """Escolhe banco/CAP a partir das propriedades de segurança do dado."""
     if perfil["precisa_acid"] or not perfil["tolera_atraso_de_consistencia"]:
         banco, cap = ("MySQL", "CP") if perfil["schema_fixo"] else ("MongoDB", "CP")
-        if perfil["precisa_acid"]:
+        if perfil["precisa_acid"] and perfil["dado_sensivel"]:
             justificativa = "aceitar uma alteração parcial de permissão ou autenticar errado é pior que ficar temporariamente fora do ar"
             risco = "A07 — Falhas de Identificação e Autenticação"
+        elif perfil["precisa_acid"]:
+            justificativa = "confirmar parcialmente uma compra ou deixar o estado de uma licença inconsistente é pior que recusar a operação"
+            risco = "A08 — Falhas de Integridade de Software e Dados"
         elif perfil["dado_sensivel"]:
             justificativa = "uma trilha de auditoria divergente não serve como prova de uma ação sensível"
             risco = "A08 — Falhas de Integridade de Software e Dados"
@@ -25,6 +28,8 @@ if __name__ == "__main__":
         "credenciais_do_SOC": {"schema_fixo": True, "precisa_acid": True, "escala_horizontal": False, "tolera_atraso_de_consistencia": False, "dado_sensivel": True},
         "telemetria_de_sensores": {"schema_fixo": False, "precisa_acid": False, "escala_horizontal": True, "tolera_atraso_de_consistencia": True, "dado_sensivel": False},
         "trilha_de_auditoria": {"schema_fixo": False, "precisa_acid": False, "escala_horizontal": True, "tolera_atraso_de_consistencia": False, "dado_sensivel": True},
+        "carrinho_de_licencas": {"schema_fixo": True, "precisa_acid": True, "escala_horizontal": False, "tolera_atraso_de_consistencia": False, "dado_sensivel": False},
+        "cache_de_sessoes": {"schema_fixo": True, "precisa_acid": False, "escala_horizontal": True, "tolera_atraso_de_consistencia": True, "dado_sensivel": True},
     }
     for nome, perfil in perfis.items():
         print(nome, "->", recomendar(perfil))

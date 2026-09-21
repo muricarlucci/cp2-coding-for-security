@@ -59,7 +59,7 @@ def preparar():
     cur = con.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS usuarios (id INT PRIMARY KEY, nome VARCHAR(60), email VARCHAR(100), nivel_acesso INT)")
     cur.execute("DELETE FROM usuarios")
-    cur.executemany("INSERT INTO usuarios VALUES (%s,%s,%s,%s)", [(1, "ana", "ana@x.com", 5), (2, "bruno", "bruno@x.com", 2), (3, "caio", "caio@x.com", 1)])
+    cur.executemany("INSERT INTO usuarios (id,nome,email,nivel_acesso) VALUES (%s,%s,%s,%s)", [(1, "ana", "ana@x.com", 5), (2, "bruno", "bruno@x.com", 2), (3, "caio", "caio@x.com", 1)])
     con.commit()
     con.close()
     auditoria().delete_many({})
