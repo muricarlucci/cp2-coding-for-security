@@ -11,7 +11,6 @@ def acessos():return MongoClient(os.getenv("MONGO_URI"))[os.getenv("MYSQL_DATABA
 def ip_cliente():return request.headers.get("X-Forwarded-For",request.remote_addr).split(",")[0].strip()
 @app.before_request
 def registrar():
-    if request.endpoint=="analise":return
     g.acesso_id=acessos().insert_one({"ip":ip_cliente(),"rota":request.path,"metodo":request.method,"timestamp":datetime.now()}).inserted_id
     if ip_cliente() in bloqueados:return jsonify(erro="muitas requisições"),429,{"Retry-After":"60"}
 @app.after_request
