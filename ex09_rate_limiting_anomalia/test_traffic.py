@@ -1,4 +1,6 @@
 """Cliente local: execute com o servidor do exercício 9 ativo."""
+import time
+
 import requests
 
 BASE="http://127.0.0.1:5009"
@@ -11,6 +13,7 @@ def chamar(ip, rota="/api/status"):
 if __name__ == "__main__":
     for _ in range(5):
         chamar("192.168.1.10")
+        time.sleep(1)
     for i in range(60):
         chamar("185.220.101.1", "/api/status" if i >= 40 else f"/inexistente/{i}")
 
