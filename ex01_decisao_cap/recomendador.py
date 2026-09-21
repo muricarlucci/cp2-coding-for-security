@@ -18,8 +18,13 @@ def recomendar(perfil):
             risco = "A04 — Falhas de Design Inseguro"
     else:
         banco, cap = "MongoDB", "AP"
-        justificativa = "perder alguns segundos de telemetria é menos grave que parar de aceitar novos eventos durante uma falha de rede"
-        risco = "A09 — Falhas de Registro e Monitoramento de Segurança"
+
+        if perfil["dado_sensivel"]:
+            justificativa = "aceitar um atraso temporário no cache é preferível a indisponibilizar as sessões, mas o erro inaceitável é permitir que uma sessão revogada continue autorizada"
+            risco = "A07 — Falhas de Identificação e Autenticação"
+        else:
+            justificativa = "perder alguns segundos de telemetria é menos grave que parar de aceitar novos eventos durante uma falha de rede"
+            risco = "A09 — Falhas de Registro e Monitoramento de Segurança"
     return {"banco": banco, "cap": cap, "justificativa": justificativa, "risco_owasp": risco}
 
 
