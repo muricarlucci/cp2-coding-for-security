@@ -49,10 +49,10 @@ def listar():
         return erro_auth()
     con = db()
     cur = con.cursor(dictionary=True)
-    if pessoa["nivel"] < 5:
-        cur.execute("SELECT id,titulo,severidade,status FROM incidentes WHERE dono_id=%s", (pessoa["id"],))
-    else:
-        cur.execute("SELECT id,titulo,severidade,status FROM incidentes")
+    cur.execute(
+        "SELECT id,titulo,severidade,status FROM incidentes WHERE dono_id=%s",
+        (pessoa["id"],)
+    )
     dados = cur.fetchall()
     con.close()
     return jsonify(dados)
@@ -71,7 +71,7 @@ def incidente(incidente_id):
         if not item:
             con.close()
             return jsonify(erro="incidente não encontrado"), 404
-        if pessoa["nivel"] < 5 and item["dono_id"] != pessoa["id"]:
+        if item["dono_id"] != pessoa["id"]:
             con.close()
             return jsonify(erro="acesso negado"), 403
         con.close()
